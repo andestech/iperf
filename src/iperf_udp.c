@@ -33,6 +33,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <inttypes.h>
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #endif
@@ -104,7 +105,7 @@ iperf_udp_recv(struct iperf_stream *sp)
         sp->packet_count = pcount;
     } else {
         sp->outoforder_packets++;
-	iperf_err(sp->test, "OUT OF ORDER - incoming packet = %zu and received packet = %d AND SP = %d", pcount, sp->packet_count, sp->socket);
+	iperf_err(sp->test, "OUT OF ORDER - incoming packet = %" PRIu64 " and received packet = %d AND SP = %d", pcount, sp->packet_count, sp->socket);
     }
 
     /* jitter measurement */
