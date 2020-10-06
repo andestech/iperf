@@ -2277,8 +2277,8 @@ iperf_print_results(struct iperf_test *test)
     struct iperf_stream *sp = NULL;
     iperf_size_t bytes_sent, total_sent = 0;
     iperf_size_t bytes_received, total_received = 0;
-    double start_time, end_time, avg_jitter = 0.0, lost_percent;
-    double bandwidth;
+    double start_time, end_time = 0.0, avg_jitter = 0.0, lost_percent;
+    double bandwidth = 0.0;
 
     /* print final summary for all intervals */
 
@@ -2334,7 +2334,9 @@ iperf_print_results(struct iperf_test *test)
         }
 
 	unit_snprintf(ubuf, UNIT_LEN, (double) bytes_sent, 'A');
-	bandwidth = (double) bytes_sent / (double) end_time;
+    if(end_time>0){
+        bandwidth = (double) bytes_sent / (double) end_time;
+    }
 	unit_snprintf(nbuf, UNIT_LEN, bandwidth, test->settings->unit_format);
 	if (test->protocol->id == Ptcp || test->protocol->id == Psctp) {
 	    if (test->sender_has_retransmits) {
